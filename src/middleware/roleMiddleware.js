@@ -1,0 +1,12 @@
+/**
+ * Middleware: Restrict access to ADMIN role only.
+ * Must be used AFTER requireAuth middleware.
+ */
+const requireAdmin = (req, res, next) => {
+  if (req.user && req.user.role === 'ADMIN') {
+    return next();
+  }
+  return res.status(403).json({ message: 'Access denied. Admins only.' });
+};
+
+module.exports = { requireAdmin };
