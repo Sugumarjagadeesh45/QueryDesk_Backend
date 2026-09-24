@@ -7,14 +7,19 @@ const { errorHandler, notFound } = require('./middleware/errorMiddleware');
 
 const app = express();
 
-// Enable CORS for React frontend
+// Enable CORS for React frontend (allow all for easy deployment)
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:3000'],
+  origin: '*',
   credentials: true,
 }));
 
 // Parse JSON request bodies
 app.use(express.json());
+
+// Root endpoint (So render doesn't show 404 when opening the base URL)
+app.get('/', (req, res) => {
+  res.json({ success: true, message: 'Welcome to QueryDesk API! Server is live.' });
+});
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
